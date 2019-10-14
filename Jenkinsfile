@@ -1,8 +1,8 @@
 pipeline {
   agent {
     docker {
-      args 'mvn test'
       image 'maven:3-jdk-8'
+      args 'mvn compile'
     }
 
   }
