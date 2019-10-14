@@ -2,7 +2,7 @@ pipeline {
   agent {
     docker {
       args 'mvn test'
-      image 'quay.io/quarkus/centos-quarkus-maven:19.1.1'
+      image 'maven:3-jdk-8'
     }
 
   }
