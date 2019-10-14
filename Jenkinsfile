@@ -9,6 +9,14 @@ pipeline {
     stage('Test') {
       steps {
         sh 'mvn test'
+        stash(name: 'Target', includes: '/target/*')
+      }
+    }
+    stage('Java') {
+      agent any
+      steps {
+        unstash 'Target'
+        sh 'docker build src/main/docker/Dockerfile.jvm -t quarks:${GIT_COMMIT}'
       }
     }
   }
