@@ -9,14 +9,30 @@ pipeline {
     stage('Test') {
       steps {
         sh 'mvn test'
-        stash(name: 'Target', includes: '/target/*')
       }
     }
-    stage('Java') {
-      agent any
+    stage('Package') {
+      agent {
+        docker {
+          image 'maven:3-jdk-8'
+        }
+
+      }
       steps {
-        unstash 'Target'
-        sh 'docker build src/main/docker/Dockerfile.jvm -t quarks:${GIT_COMMIT}'
+        sh 'mvn package'
+        stash(name: 'Runner-jar', includes: 'target/**/*')
+      }
+    }
+    stage('Docker') {
+      agent {
+        node {
+          label 'Master'
+        }
+
+      }
+      steps {
+        unstash 'Runner-jar'
+        sh 'docker build -f src/main/docker/Dockerfile.jvm -t quarkus/code-with-quarkus-jvm .'
       }
     }
   }
