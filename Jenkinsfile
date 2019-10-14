@@ -1,12 +1,13 @@
 pipeline {
-  agent {
-    docker {
-      image 'maven:3-jdk-8'
-    }
-
-  }
+  agent any
   stages {
     stage('Test') {
+      agent {
+        docker {
+          image 'maven:3-jdk-8'
+        }
+
+      }
       steps {
         sh 'mvn test'
       }
