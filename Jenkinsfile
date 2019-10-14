@@ -25,12 +25,7 @@ pipeline {
       }
     }
     stage('Docker') {
-      agent {
-        node {
-          label 'Master'
-        }
-
-      }
+      agent any
       steps {
         unstash 'Runner-jar'
         sh 'docker build -f src/main/docker/Dockerfile.jvm -t quarkus/code-with-quarkus-jvm .'
