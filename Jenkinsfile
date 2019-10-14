@@ -1,8 +1,8 @@
 pipeline {
   agent {
     docker {
-      image 'rawmind/alpine-jdk8'
       args 'mvn test'
+      image 'quay.io/quarkus/centos-quarkus-maven:19.1.1'
     }
 
   }
